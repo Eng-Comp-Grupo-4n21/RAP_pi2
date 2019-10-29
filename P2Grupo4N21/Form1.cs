@@ -11,7 +11,7 @@ using System.Windows.Forms;
 namespace P2Grupo4N21
 {
     public partial class UserControl1 : Form
-    {
+    {   //varialvel global....
         int segundos;
         string dados_serial;
         //string texto="0";
@@ -26,8 +26,9 @@ namespace P2Grupo4N21
             }
         }
         public void LimpaCpf()
-        {
+        {   // função limpa trabalha junto com o timer1, para alterar o labelMensager.Text
             Editcpf1.Clear();
+            Editcpf1.Visible = false; //some o edit1.cpf da tela
             timer1.Enabled = true;
             timer1.Interval = 5000;
             timer1.Start();
@@ -55,94 +56,94 @@ namespace P2Grupo4N21
             if (cpf == "111.111.111-11" || cpf == "222.222.222-22" || cpf == "333.333.333-33" || cpf == "444.444.444-44" || cpf == "555.555.555-55" || cpf == "666.666.666-66" || cpf == "777.777.777-77" || cpf == "888.888.888-88" || cpf == "999.999.999-99")
             {
                 labelMensager.Text = "O número do CPF é Inválido !";                
-                LimpaCpf();
+                LimpaCpf();//mantem 5 segundos  do texto cpf invalido e limpa o campo
+                
             }
             else
             {
                 if (PI24N21.ValidaCPF.IsCpf(cpf))
-                {
+                {   // entra na função ValidaCPF e verifica se é valido ou não
                     labelMensager.Text = "O número do CPF é Válido !";
-                    LimpaCpf();                   
-                    Editcpf1.Visible = false;
+                    LimpaCpf();// limpa o campo                    
                     timer1.Stop();
-                    timer2.Enabled = true;
+                    timer2.Enabled = true;// habilita o segundo timer responsavel 2 segundos de texto na tela 
                     timer2.Interval = 2000;
                     timer2.Start();
-                    segundos = 30;
-                    buttonconfirma.Visible = false;          
+                    segundos = 30;// inicialização da variavel de tempo
+                    buttonconfirma.Visible = false; // desaparece com o button_confirma         
                 }
                 else
                 {
                     labelMensager.Text = "O número do CPF é Inválido !";
-                    LimpaCpf();
+                    LimpaCpf(); //mantem 5 segundos  do texto cpf invalido e limpa o campo
 
                 }
             }
         }
 
         private void Timer1_Tick(object sender, EventArgs e)
-        {
+        {   // timer 1 é responsavel do label para pedir o numero cpf
             labelMensager.Text = "Entre com o número do CPF";
-            timer1.Stop();
-            timer1.Enabled = false;
+            Editcpf1.Visible = true; //reaparece o editcpf1 na tela
+            timer1.Stop();// para o timer1
+            timer1.Enabled = false;// desabilita o timer1
         }
 
         private void Timer2_Tick(object sender, EventArgs e)
         {
             labelMensager.Text = "  INSIRA SUA GARRAFA";
-            timer3.Enabled = true;
-            timer3.Interval = 1000;
-            timer3.Start();            
+            timer3.Enabled = true;// habilita o timer3
+            timer3.Interval = 1000;// set 1 segundo de atualização
+            timer3.Start(); //inicia o timer 3           
         }
 
         private void Timer3_Tick(object sender, EventArgs e)
         {
-            timer2.Stop();
-            timer2.Enabled = false;
+            timer2.Stop();// para o timer 2
+            timer2.Enabled = false;// desabilita o timer2
             if (segundos == 0)
-            {
-
-                timer3.Enabled = false;
-                segundos = 30;
-                labelMensager.ForeColor = Color.Black;
-                labelMensager.Text = "Entre com o número do CPF";
-                buttonconfirma.Visible = true;
+            {   // se não foi colocado a garrafa e zerou prepara para reiniciar o sistema
+                timer3.Enabled = false;// desabilita o timer3
+                segundos = 30;// variavel segundo volta a receber valor
+                labelMensager.ForeColor = Color.Black; // mantem o labelMensager em preto
+                labelMensager.Text = "Entre com o número do CPF"; //muda o texto para inicializar o pedido de cpf
+                buttonconfirma.Visible = true;// retorna o button_confirma para visivel
                 
-                Editcpf1.Clear();
-                Editcpf1.Visible = true;
+                Editcpf1.Clear(); // chama a função limpa 
+                Editcpf1.Visible = true;// aparece novamente o editcpf1
                
-                
-                if (serialPort1.IsOpen == true)
+                // este comando abaixo pode sair futuramente, pois esta desta maneira pra testar até o microcontrolador estiver ok
+                if (serialPort1.IsOpen == true) // verifica a serial se esta aberta para poder fechar
                 {                        
-                    serialPort1.Write("1");
-                    fecha_serial();                                        
+                    serialPort1.Write("1");// envia um comando antes de fechar a serial
+                    fecha_serial();  //  função de fechar serial                                      
                 }
 
             }
             else
-            {
-                segundos--;
+            {   // conta tempo de 30 segunsdos para inserir a garrafa
+                segundos--;// subtrai segundo por segundo
                 labelMensager.ForeColor = labelMensager.ForeColor == Color.Red ? Color.Black : Color.Red;
-                //labelMensager.ForeColor = Color.Black; 
-                labelMensager.Text = "INSIRA SUA GARRAFA " + segundos;     
-                if (serialPort1.IsOpen == false)
+                // linha acima fica alternando de cor a cada segundo                
+                labelMensager.Text = "INSIRA SUA GARRAFA " + segundos; // atualização do label a cada segundo    
+                if (serialPort1.IsOpen == false) // verifica para abrir a porta serial
                 {
-                    serialPort1.Open();
-                    serialPort1.Write("2");
+                    serialPort1.Open(); // abre a porta serial
+                    serialPort1.Write("2");// envia comando para serial
                 }
 
-                dados_serial= serialPort1.ReadExisting();       
+                dados_serial= serialPort1.ReadExisting(); // verifica se tem retorno da serial      
 
-                if (dados_serial == "2")
-                {
-                    labelMensager.Text = "  GARRAFA RECEBIDA";
-                    segundos = 30;
+                if (dados_serial == "2") // compara o sinal recebido da serial
+                {   // executa a  função conforme o sinal de retorno
+                    labelMensager.Text = "  GARRAFA RECEBIDA"; // confirma que a garrafa foi recebida
+                    segundos = 30;// se receber alguma garrafa reinicia o contador 
                 }             
             }
         }
         private void UserControl1_FormClosed(object sender, FormClosedEventArgs e)
         {
-            fecha_serial();
+            fecha_serial();// fecha a serial se for fechar o formulario
         }        
     }
 }
