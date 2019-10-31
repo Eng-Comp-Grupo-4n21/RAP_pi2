@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO.Ports;
 
 namespace P2Grupo4N21
 {
@@ -41,7 +42,12 @@ namespace P2Grupo4N21
 
         private void UserControl1_Load(object sender, EventArgs e)
         {
-            serialPort1.PortName ="COM3";
+            string[] ports = SerialPort.GetPortNames(); // procura as port serial instalada no windows 
+            foreach (string port in ports) //estrutura de de repetição para encontar as portas serial 
+            {   // tem que formular ainda o array das portas ou fazer uma escolha da lista das portas presente, ainda a defenir
+                serialPort1.PortName = port; // conforme logica incompleta vai jogar no nome da porta a ultima da lista 
+            }
+            
             labelMensager.Text = "Entre com o número do CPF";
             labelTop.Text = "RECICLANDO";
             buttonconfirma.Text = "CONFIRMAR";
