@@ -15,8 +15,9 @@ namespace P2Grupo4N21
     {   //varialvel global....
         int segundos;
         string dados_serial;
+        long  codigodebarra=000000000;
         //string texto="0";
-        
+
         public void fecha_serial() // fecha porta serial
         {
             if (serialPort1.IsOpen == true)
@@ -47,9 +48,9 @@ namespace P2Grupo4N21
             foreach (string port in ports)                         //estrutura de de repetição para encontar as portas serial 
             {   // tem que formular ainda o array das portas ou fazer uma escolha da lista das portas presente, ainda a defenir
                 if (ports==null )
-                {
+                {// conferir esta lógica se vai funcionar 
                     Application.Exit();                             //fecha aplicação se não tem porta serial
-                }
+                }// 
                 else
                 {
                     serialPort1.PortName = port;                       // conforme logica incompleta vai jogar no nome da porta a ultima da lista 
@@ -159,7 +160,10 @@ namespace P2Grupo4N21
                     serialPort1.DiscardInBuffer();                  // limpa o buffer da serial para esperar o proximo comando de entrada
                     edit_codBarra.Visible = true;                // entrada do codigo de barras
 
-                }             
+                }
+                codigodebarra = Convert.ToInt32(edit_codBarra.Text);
+                label1.Text = Convert.ToString(codigodebarra);
+
             }
         }
         private void UserControl1_FormClosed(object sender, FormClosedEventArgs e)
