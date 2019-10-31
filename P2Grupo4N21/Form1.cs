@@ -42,15 +42,27 @@ namespace P2Grupo4N21
 
         private void UserControl1_Load(object sender, EventArgs e)
         {
-            string[] ports = SerialPort.GetPortNames(); // procura as port serial instalada no windows 
-            foreach (string port in ports) //estrutura de de repetição para encontar as portas serial 
-            {   // tem que formular ainda o array das portas ou fazer uma escolha da lista das portas presente, ainda a defenir
-                serialPort1.PortName = port; // conforme logica incompleta vai jogar no nome da porta a ultima da lista 
-            }
             
+            string[] ports = SerialPort.GetPortNames();            // procura as port serial instalada no windows 
+            foreach (string port in ports)                         //estrutura de de repetição para encontar as portas serial 
+            {   // tem que formular ainda o array das portas ou fazer uma escolha da lista das portas presente, ainda a defenir
+                if (ports==null )
+                {
+                    Application.Exit();                             //fecha aplicação se não tem porta serial
+                }
+                else
+                {
+                    serialPort1.PortName = port;                       // conforme logica incompleta vai jogar no nome da porta a ultima da lista 
+                    label1.Text = port;
+
+                }
+
+            }
+            edit_codBarra.Visible = false;                   // inicializa invisivel o textbox do codigo de barras
             labelMensager.Text = "Entre com o número do CPF";
             labelTop.Text = "RECICLANDO";
             buttonconfirma.Text = "CONFIRMAR";
+            
         }
 
         private void Buttonconfirma_Click(object sender, EventArgs e)
@@ -105,51 +117,56 @@ namespace P2Grupo4N21
 
         private void Timer3_Tick(object sender, EventArgs e)
         {
-            timer2.Stop();// para o timer 2
-            timer2.Enabled = false;// desabilita o timer2
+            timer2.Stop();                              // para o timer 2
+            timer2.Enabled = false;                     // desabilita o timer2
             if (segundos == 0)
             {   // se não foi colocado a garrafa e zerou prepara para reiniciar o sistema
-                timer3.Enabled = false;// desabilita o timer3
-                segundos = 30;// variavel segundo volta a receber valor
-                labelMensager.ForeColor = Color.Black; // mantem o labelMensager em preto
-                labelMensager.Text = "Entre com o número do CPF"; //muda o texto para inicializar o pedido de cpf
-                buttonconfirma.Visible = true;// retorna o button_confirma para visivel
+                timer3.Enabled = false;                             // desabilita o timer3
+                segundos = 30 ;                                     // variavel segundo volta a receber valor
+                labelMensager.ForeColor = Color.Black;              // mantem o labelMensager em preto
+                labelMensager.Text = "Entre com o número do CPF";   //muda o texto para inicializar o pedido de cpf
+                buttonconfirma.Visible = true;                      // retorna o button_confirma para visivel
                 
-                Editcpf1.Clear(); // chama a função limpa 
-                Editcpf1.Visible = true;// aparece novamente o editcpf1
+                Editcpf1.Clear();                                   // chama a função limpa 
+                Editcpf1.Visible = true;                            // aparece novamente o editcpf1
                
                 // este comando abaixo pode sair futuramente, pois esta desta maneira pra testar até o microcontrolador estiver ok
-                if (serialPort1.IsOpen == true) // verifica a serial se esta aberta para poder fechar
+                if (serialPort1.IsOpen == true)                     // verifica a serial se esta aberta para poder fechar
                 {                        
-                    serialPort1.Write("1");// envia um comando antes de fechar a serial
-                    fecha_serial();  //  função de fechar serial                                      
+                    serialPort1.Write("1");                         // envia um comando antes de fechar a serial
+                    fecha_serial();                                 //  função de fechar serial                                      
                 }
 
             }
             else
             {   // conta tempo de 30 segunsdos para inserir a garrafa
-                segundos--;// subtrai segundo por segundo
+                segundos--;                                         // subtrai segundo por segundo
                 labelMensager.ForeColor = labelMensager.ForeColor == Color.Red ? Color.Black : Color.Red;
                 // linha acima fica alternando de cor a cada segundo                
                 labelMensager.Text = "INSIRA SUA GARRAFA " + segundos; // atualização do label a cada segundo    
-                if (serialPort1.IsOpen == false) // verifica para abrir a porta serial
+                if (serialPort1.IsOpen == false)                        // verifica para abrir a porta serial
                 {
-                    serialPort1.Open(); // abre a porta serial
-                    serialPort1.Write("2");// envia comando para serial
+                    serialPort1.Open();                             // abre a porta serial
+                    serialPort1.Write("1");                         // envia comando para serial
                 }
 
-                dados_serial= serialPort1.ReadExisting(); // verifica se tem retorno da serial      
+                dados_serial= serialPort1.ReadExisting();           // verifica se tem retorno da serial      
 
-                if (dados_serial == "2") // compara o sinal recebido da serial
+                if (dados_serial == "1")                            // compara o sinal recebido da serial
                 {   // executa a  função conforme o sinal de retorno
-                    labelMensager.Text = "  GARRAFA RECEBIDA"; // confirma que a garrafa foi recebida
-                    segundos = 30;// se receber alguma garrafa reinicia o contador 
+                    labelMensager.Text = "  GARRAFA RECEBIDA";      // confirma que a garrafa foi recebida
+                    segundos = 30;                                  // se receber alguma garrafa reinicia o contador 
+                    serialPort1.DiscardInBuffer();                  // limpa o buffer da serial para esperar o proximo comando de entrada
+                    edit_codBarra.Visible = true;                // entrada do codigo de barras
+
                 }             
             }
         }
         private void UserControl1_FormClosed(object sender, FormClosedEventArgs e)
         {
-            fecha_serial();// fecha a serial se for fechar o formulario
-        }        
+            fecha_serial();                                         // fecha a serial se for fechar o formulario
+        }
+
+       
     }
 }
