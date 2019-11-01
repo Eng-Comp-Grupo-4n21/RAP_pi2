@@ -8,6 +8,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO.Ports;
+using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Web.Script.Serialization;
+using System.Runtime.Serialization;
+using System.IO;
+using System.Runtime.Serialization.Json;
 
 namespace P2Grupo4N21
 {
@@ -17,6 +24,17 @@ namespace P2Grupo4N21
         string dados_serial;
         long  codigodebarra=000000000;
         //string texto="0";
+
+        public class CosmosWebClient : WebClient
+        {
+            protected override WebRequest GetWebRequest(Uri address)
+            {
+                HttpWebRequest request = (HttpWebRequest)base.GetWebRequest(address);
+                request.Headers["X-Cosmos-Token"] = "tiqMV7TwS-IkRooqiE3NgQ";
+                base.Encoding = System.Text.Encoding.UTF8;
+                return request;
+            }
+        }
 
         public void fecha_serial() // fecha porta serial
         {
@@ -59,7 +77,7 @@ namespace P2Grupo4N21
                 }
 
             }
-            edit_codBarra.Visible = false;                   // inicializa invisivel o textbox do codigo de barras
+            TXT_COD_BARRAS.Visible = false;                   // inicializa invisivel o textbox do codigo de barras
             labelMensager.Text = "Entre com o número do CPF";
             labelTop.Text = "RECICLANDO";
             buttonconfirma.Text = "CONFIRMAR";
@@ -158,11 +176,22 @@ namespace P2Grupo4N21
                     labelMensager.Text = "  GARRAFA RECEBIDA";      // confirma que a garrafa foi recebida
                     segundos = 30;                                  // se receber alguma garrafa reinicia o contador 
                     serialPort1.DiscardInBuffer();                  // limpa o buffer da serial para esperar o proximo comando de entrada
-                    edit_codBarra.Visible = true;                // entrada do codigo de barras
+                    TXT_COD_BARRAS.Visible = true;                // entrada do codigo de barras
 
                 }
-                codigodebarra = Convert.ToInt32(edit_codBarra.Text);
+                codigodebarra = Convert.ToInt32(TXT_COD_BARRAS.Text);
                 label1.Text = Convert.ToString(codigodebarra);
+                var url = "https://api.cosmos.bluesoft.com.br/gtins/" + TXT_COD_BARRAS.Text + ".json";
+                CosmosWebClient wc = new CosmosWebClient();
+                string RESPOSTA = wc.DownloadString(url);
+                produto produtos = descricao_produto.JsonHelper.DeSerializar<produto>(RESPOSTA);
+                
+                //TXT_COD_BARRAS.Text = produtos.gtin;
+                //TXT_DESCRICAO.Text = produtos.description;
+                //TXT_IMAGEM_PRODUTO.Text = produtos.thumbnail;
+                //TXT_PESO_BRUTO.Text = produtos.gross_weight;
+                //TXT_PESO_LIQUIDO.Text = produtos.net_weight;
+                //TXT_PESO_EMBALAGEM.Text = Convert.ToString(Math.Abs(Convert.ToInt32(produtos.gross_weight) - Convert.ToInt32(produtos.net_weight)));
 
             }
         }
