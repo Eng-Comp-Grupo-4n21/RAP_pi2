@@ -25,11 +25,15 @@ static class Program
             }
             // FIM DO ALGORITIMO DE VERIFICAÇÃO DE EXISTENCIA NO PROCESSO DO WINDOWS
 
+
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new UserControl1());
-
             
+
+
+
         }
     }
 }

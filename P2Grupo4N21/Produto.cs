@@ -4,7 +4,7 @@ using System;
 namespace P2Grupo4N21
 {
     [DataContract]
-    public class produto
+    public class Produto
     {
 
         /*
@@ -31,7 +31,7 @@ namespace P2Grupo4N21
             FIM DO RETORNO JSON DO SERVIDOR
              */
 
-        public produto(string descricao, string cod_barras, string imagen_produto, string valor, string valor_varejo, string valor_maximo, string valor_minimo, string largura, string altura, string comprimento, string peso_liquido, string peso_bruto, string criado, string modificado, string imagen_codigo_barras)
+        public Produto(string descricao, string cod_barras, string imagen_produto, string valor, string valor_varejo, string valor_maximo, string valor_minimo, string largura, string altura, string comprimento, string peso_liquido, string peso_bruto, string criado, string modificado, string imagen_codigo_barras)
         {
             description = descricao;
             gtin = cod_barras;

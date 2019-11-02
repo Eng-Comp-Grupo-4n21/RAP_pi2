@@ -6,7 +6,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System;
 
-namespace descricao_produto
+namespace Descricao_Produto
 {
   public class JsonHelper
   {

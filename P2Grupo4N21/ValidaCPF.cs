@@ -18,6 +18,10 @@ namespace PI24N21
 
             cpf = cpf.Trim();                                                       //Remove possiveis espaços em branco da string
             cpf = cpf.Replace(".", "").Replace("-", "");                            //Busca por caracteres '.' e '-' e remove da string
+            if (cpf == "11111111111" || cpf == "22222222222" || cpf == "33333333333" || cpf == "44444444444" || cpf == "55555555555" || cpf == "66666666666" || cpf == "77777777777" || cpf == "88888888888" || cpf == "99999999999")
+            {
+                return false;
+            }
             if (cpf.Length != 11)                                                   //Verifica se a string esta com os 11 caracteres 
                 return false;                                                       //Caso esteja faltando caracter retorna como falso
             tempCpf = cpf.Substring(0, 9);                                          //Seleciona os primeiros 9 digitos da string
