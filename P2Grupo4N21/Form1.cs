@@ -22,7 +22,7 @@ namespace P2Grupo4N21
     {   //varialvel global....
         int Segundos;
         string Dados_Serial;
-        int  CodigoBarra;
+        //int  CodigoBarra;
         //string texto="0";
 
         public class CosmosWebClient : WebClient
@@ -33,6 +33,27 @@ namespace P2Grupo4N21
                 request.Headers["X-Cosmos-Token"] = "tiqMV7TwS-IkRooqiE3NgQ";
                 base.Encoding = System.Text.Encoding.UTF8;
                 return request;
+            }
+        }
+
+        private void Limpar(Control.ControlCollection controles)
+        {
+            //Faz um laço para todos os controles passados no parâmetro
+            foreach (Control ctrl in controles)
+            {
+                //Se o controle for um TextBox...
+                if (ctrl is TextBox)
+                {
+                    ((TextBox)(ctrl)).Text = String.Empty;
+                }
+
+                //Se o controle for um PictureBox...
+                if (ctrl is PictureBox)
+                {
+                    ((PictureBox)(ctrl)).Image = null;
+                }
+
+
             }
         }
 
@@ -171,7 +192,7 @@ namespace P2Grupo4N21
 
         private void Timer2_Tick(object sender, EventArgs e)
         {
-            labelMensager.Text = "  INSIRA SUA GARRAFA";
+            labelMensager.Text = "INSIRA SUA GARRAFA";
             timer3.Enabled = true;// habilita o timer3
             //timer3.Interval = 1000;// set 1 segundo de atualização
             timer3.Start(); //inicia o timer 3           
@@ -194,10 +215,11 @@ namespace P2Grupo4N21
             }
             else
             {   // conta tempo de 30 segunsdos para inserir a garrafa
+                GPB_INFO_GARRAFA.Visible = true;
                 Segundos--;                                         // subtrai segundo por segundo
                 labelMensager.ForeColor = labelMensager.ForeColor == Color.Red ? Color.Black : Color.Red;
                 // linha acima fica alternando de cor a cada segundo                
-                labelMensager.Text = "INSIRA SUA GARRAFA " + Segundos; // atualização do label a cada segundo    
+                labelMensager.Text = "  INSIRA SUA GARRAFA  " + Segundos; // atualização do label a cada segundo    
 
                 if (SerialPort.GetPortNames().Length == 0)
                 {
@@ -220,32 +242,42 @@ namespace P2Grupo4N21
                     }
 
                 }
-                if (serialPort1.ReadExisting() != "")
+                if (serialPort1.ReadExisting() == "")
                 {
                     Dados_Serial = serialPort1.ReadExisting();           // verifica se tem retorno da serial      
 
-                    if (Dados_Serial == "1")                            // compara o sinal recebido da serial
+                    if (Dados_Serial == "")                            // compara o sinal recebido da serial
                     {   // executa a  função conforme o sinal de retorno
-                        labelMensager.Text = "GARRAFA RECEBIDA";      // confirma que a garrafa foi recebida
+                        labelMensager.Text = "  GARRAFA RECEBIDA  ";      // confirma que a garrafa foi recebida
                         Segundos = 30;                                  // se receber alguma garrafa reinicia o contador 
                         serialPort1.DiscardInBuffer();                  // limpa o buffer da serial para esperar o proximo comando de entrada
                         TXT_COD_BARRAS.Visible = true;                // entrada do codigo de barras
                     }
                     if (TXT_COD_BARRAS.Visible == true)
                     {
-                        CodigoBarra = Convert.ToInt32(TXT_COD_BARRAS.Text);
-                        label1.Text = Convert.ToString(CodigoBarra);
-                        var url = "https://api.cosmos.bluesoft.com.br/gtins/" + TXT_COD_BARRAS.Text + ".json";
-                        CosmosWebClient wc = new CosmosWebClient();
-                        string RESPOSTA = wc.DownloadString(url);
-                        Produto Produtos = Descricao_Produto.JsonHelper.DeSerializar<Produto>(RESPOSTA);
+                        //CodigoBarra = Convert.ToInt32(TXT_COD_BARRAS.Text);
+                        label1.Text = TXT_COD_BARRAS.Text;//Convert.ToString(CodigoBarra);
+                        if (TXT_COD_BARRAS.Text != "")
+                        {
+                            var url = "https://api.cosmos.bluesoft.com.br/gtins/" + TXT_COD_BARRAS.Text + ".json";
+                            CosmosWebClient wc = new CosmosWebClient();
+                            string RESPOSTA = wc.DownloadString(url);
+                            Produto Produtos = Descricao_Produto.JsonHelper.DeSerializar<Produto>(RESPOSTA);
 
-                        //TXT_COD_BARRAS.Text = produtos.gtin;
-                        //TXT_DESCRICAO.Text = produtos.description;
-                        //TXT_IMAGEM_PRODUTO.Text = produtos.thumbnail;
-                        //TXT_PESO_BRUTO.Text = produtos.gross_weight;
-                        //TXT_PESO_LIQUIDO.Text = produtos.net_weight;
-                        //TXT_PESO_EMBALAGEM.Text = Convert.ToString(Math.Abs(Convert.ToInt32(produtos.gross_weight) - Convert.ToInt32(produtos.net_weight)));
+                            TXT_COD_BARRAS1.Text = Produtos.gtin;
+                            TXT_DESCRICAO.Text = Produtos.description;
+                            PCB_CODIGO_BARRAS.Load(Produtos.barcode_image);
+                            PCB_FOTO_PET.LoadAsync(Produtos.thumbnail);
+                            TXT_PESO_BRUTO.Text = Produtos.gross_weight;
+                            TXT_PESO_LIQUIDO.Text = Produtos.net_weight;
+                            TXT_PESO_EMBALAGEM.Text = Convert.ToString(Math.Abs(Convert.ToInt32(Produtos.gross_weight) - Convert.ToInt32(Produtos.net_weight)));
+                            Limpar(this.Controls);
+                            TXT_COD_BARRAS.Select();
+                        }
+                        else 
+                        {
+                            return; 
+                        }
                     }
                     else
                     {
@@ -263,6 +295,11 @@ namespace P2Grupo4N21
             Fecha_Serial();                                         // fecha a serial se for fechar o formulario
         }
 
-
+        private void PCB_FOTO_PET_LoadProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            LBL_IMAGEM_PROGRESSO.BackColor = Color.Transparent;
+            PGB_IMAGEM_PROGRESSO.Value = e.ProgressPercentage;
+            LBL_IMAGEM_PROGRESSO.Text = e.ProgressPercentage.ToString() + "%";
+        }
     }
 }

@@ -44,7 +44,27 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.CB_SERIAL = new System.Windows.Forms.ComboBox();
             this.TMR_SERIAL = new System.Windows.Forms.Timer(this.components);
+            this.GPB_INFO_GARRAFA = new System.Windows.Forms.GroupBox();
+            this.PCB_CODIGO_BARRAS = new System.Windows.Forms.PictureBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.LBL_IMAGEM_PROGRESSO = new System.Windows.Forms.Label();
+            this.PGB_IMAGEM_PROGRESSO = new System.Windows.Forms.ProgressBar();
+            this.PCB_FOTO_PET = new System.Windows.Forms.PictureBox();
+            this.TXT_PESO_EMBALAGEM = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.TXT_PESO_LIQUIDO = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.TXT_PESO_BRUTO = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.TXT_DESCRICAO = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.TXT_COD_BARRAS1 = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.GPB_INFO_GARRAFA.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PCB_CODIGO_BARRAS)).BeginInit();
+            this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PCB_FOTO_PET)).BeginInit();
             this.SuspendLayout();
             // 
             // labelTop
@@ -139,8 +159,9 @@
             this.TXT_COD_BARRAS.Font = new System.Drawing.Font("Microsoft Sans Serif", 26.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.TXT_COD_BARRAS.Location = new System.Drawing.Point(475, 511);
             this.TXT_COD_BARRAS.Name = "TXT_COD_BARRAS";
-            this.TXT_COD_BARRAS.Size = new System.Drawing.Size(245, 47);
+            this.TXT_COD_BARRAS.Size = new System.Drawing.Size(254, 47);
             this.TXT_COD_BARRAS.TabIndex = 5;
+            this.TXT_COD_BARRAS.Text = "7896098909997";
             // 
             // label1
             // 
@@ -183,6 +204,181 @@
             this.TMR_SERIAL.Enabled = true;
             this.TMR_SERIAL.Interval = 1;
             // 
+            // GPB_INFO_GARRAFA
+            // 
+            this.GPB_INFO_GARRAFA.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.GPB_INFO_GARRAFA.Controls.Add(this.PCB_CODIGO_BARRAS);
+            this.GPB_INFO_GARRAFA.Controls.Add(this.groupBox1);
+            this.GPB_INFO_GARRAFA.Controls.Add(this.TXT_PESO_EMBALAGEM);
+            this.GPB_INFO_GARRAFA.Controls.Add(this.label7);
+            this.GPB_INFO_GARRAFA.Controls.Add(this.TXT_PESO_LIQUIDO);
+            this.GPB_INFO_GARRAFA.Controls.Add(this.label6);
+            this.GPB_INFO_GARRAFA.Controls.Add(this.TXT_PESO_BRUTO);
+            this.GPB_INFO_GARRAFA.Controls.Add(this.label5);
+            this.GPB_INFO_GARRAFA.Controls.Add(this.TXT_DESCRICAO);
+            this.GPB_INFO_GARRAFA.Controls.Add(this.label3);
+            this.GPB_INFO_GARRAFA.Controls.Add(this.TXT_COD_BARRAS1);
+            this.GPB_INFO_GARRAFA.Controls.Add(this.label2);
+            this.GPB_INFO_GARRAFA.Location = new System.Drawing.Point(12, 511);
+            this.GPB_INFO_GARRAFA.Name = "GPB_INFO_GARRAFA";
+            this.GPB_INFO_GARRAFA.Size = new System.Drawing.Size(1201, 302);
+            this.GPB_INFO_GARRAFA.TabIndex = 13;
+            this.GPB_INFO_GARRAFA.TabStop = false;
+            this.GPB_INFO_GARRAFA.Visible = false;
+            // 
+            // PCB_CODIGO_BARRAS
+            // 
+            this.PCB_CODIGO_BARRAS.BackColor = System.Drawing.Color.Transparent;
+            this.PCB_CODIGO_BARRAS.Location = new System.Drawing.Point(376, 16);
+            this.PCB_CODIGO_BARRAS.Name = "PCB_CODIGO_BARRAS";
+            this.PCB_CODIGO_BARRAS.Size = new System.Drawing.Size(179, 26);
+            this.PCB_CODIGO_BARRAS.TabIndex = 13;
+            this.PCB_CODIGO_BARRAS.TabStop = false;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox1.Controls.Add(this.LBL_IMAGEM_PROGRESSO);
+            this.groupBox1.Controls.Add(this.PGB_IMAGEM_PROGRESSO);
+            this.groupBox1.Controls.Add(this.PCB_FOTO_PET);
+            this.groupBox1.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox1.Location = new System.Drawing.Point(878, 19);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(317, 277);
+            this.groupBox1.TabIndex = 12;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "FOTO DO PET";
+            // 
+            // LBL_IMAGEM_PROGRESSO
+            // 
+            this.LBL_IMAGEM_PROGRESSO.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.LBL_IMAGEM_PROGRESSO.AutoSize = true;
+            this.LBL_IMAGEM_PROGRESSO.BackColor = System.Drawing.Color.Transparent;
+            this.LBL_IMAGEM_PROGRESSO.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LBL_IMAGEM_PROGRESSO.Location = new System.Drawing.Point(142, 257);
+            this.LBL_IMAGEM_PROGRESSO.Name = "LBL_IMAGEM_PROGRESSO";
+            this.LBL_IMAGEM_PROGRESSO.Size = new System.Drawing.Size(35, 14);
+            this.LBL_IMAGEM_PROGRESSO.TabIndex = 2;
+            this.LBL_IMAGEM_PROGRESSO.Text = "000%";
+            this.LBL_IMAGEM_PROGRESSO.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // PGB_IMAGEM_PROGRESSO
+            // 
+            this.PGB_IMAGEM_PROGRESSO.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.PGB_IMAGEM_PROGRESSO.Location = new System.Drawing.Point(7, 257);
+            this.PGB_IMAGEM_PROGRESSO.Name = "PGB_IMAGEM_PROGRESSO";
+            this.PGB_IMAGEM_PROGRESSO.Size = new System.Drawing.Size(305, 14);
+            this.PGB_IMAGEM_PROGRESSO.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
+            this.PGB_IMAGEM_PROGRESSO.TabIndex = 1;
+            // 
+            // PCB_FOTO_PET
+            // 
+            this.PCB_FOTO_PET.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.PCB_FOTO_PET.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.PCB_FOTO_PET.Location = new System.Drawing.Point(6, 25);
+            this.PCB_FOTO_PET.Name = "PCB_FOTO_PET";
+            this.PCB_FOTO_PET.Size = new System.Drawing.Size(308, 226);
+            this.PCB_FOTO_PET.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.PCB_FOTO_PET.TabIndex = 0;
+            this.PCB_FOTO_PET.TabStop = false;
+            this.PCB_FOTO_PET.LoadProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.PCB_FOTO_PET_LoadProgressChanged);
+            // 
+            // TXT_PESO_EMBALAGEM
+            // 
+            this.TXT_PESO_EMBALAGEM.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TXT_PESO_EMBALAGEM.Location = new System.Drawing.Point(181, 146);
+            this.TXT_PESO_EMBALAGEM.Name = "TXT_PESO_EMBALAGEM";
+            this.TXT_PESO_EMBALAGEM.Size = new System.Drawing.Size(132, 26);
+            this.TXT_PESO_EMBALAGEM.TabIndex = 11;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.Location = new System.Drawing.Point(7, 149);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(168, 19);
+            this.label7.TabIndex = 10;
+            this.label7.Text = "PESO EMBALAGEM:";
+            // 
+            // TXT_PESO_LIQUIDO
+            // 
+            this.TXT_PESO_LIQUIDO.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TXT_PESO_LIQUIDO.Location = new System.Drawing.Point(154, 114);
+            this.TXT_PESO_LIQUIDO.Name = "TXT_PESO_LIQUIDO";
+            this.TXT_PESO_LIQUIDO.Size = new System.Drawing.Size(159, 26);
+            this.TXT_PESO_LIQUIDO.TabIndex = 9;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Location = new System.Drawing.Point(7, 117);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(130, 19);
+            this.label6.TabIndex = 8;
+            this.label6.Text = "PESO LIQUIDO:";
+            // 
+            // TXT_PESO_BRUTO
+            // 
+            this.TXT_PESO_BRUTO.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TXT_PESO_BRUTO.Location = new System.Drawing.Point(154, 82);
+            this.TXT_PESO_BRUTO.Name = "TXT_PESO_BRUTO";
+            this.TXT_PESO_BRUTO.Size = new System.Drawing.Size(159, 26);
+            this.TXT_PESO_BRUTO.TabIndex = 7;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(7, 85);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(122, 19);
+            this.label5.TabIndex = 6;
+            this.label5.Text = "PESO BRUTO:";
+            // 
+            // TXT_DESCRICAO
+            // 
+            this.TXT_DESCRICAO.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TXT_DESCRICAO.Location = new System.Drawing.Point(232, 50);
+            this.TXT_DESCRICAO.Name = "TXT_DESCRICAO";
+            this.TXT_DESCRICAO.Size = new System.Drawing.Size(640, 26);
+            this.TXT_DESCRICAO.TabIndex = 3;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(6, 53);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(220, 19);
+            this.label3.TabIndex = 2;
+            this.label3.Text = "DESCRIÇÃO DA GARRAFA:";
+            // 
+            // TXT_COD_BARRAS1
+            // 
+            this.TXT_COD_BARRAS1.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TXT_COD_BARRAS1.Location = new System.Drawing.Point(191, 16);
+            this.TXT_COD_BARRAS1.Name = "TXT_COD_BARRAS1";
+            this.TXT_COD_BARRAS1.Size = new System.Drawing.Size(179, 26);
+            this.TXT_COD_BARRAS1.TabIndex = 1;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(6, 19);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(179, 19);
+            this.label2.TabIndex = 0;
+            this.label2.Text = "CODIGO DE BARRAS:";
+            // 
             // UserControl1
             // 
             this.AcceptButton = this.BTN_CONFIRMA;
@@ -192,6 +388,7 @@
             this.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(1225, 825);
+            this.Controls.Add(this.GPB_INFO_GARRAFA);
             this.Controls.Add(this.CB_SERIAL);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.label1);
@@ -213,6 +410,12 @@
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.UserControl1_FormClosed);
             this.Load += new System.EventHandler(this.UserControl1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.GPB_INFO_GARRAFA.ResumeLayout(false);
+            this.GPB_INFO_GARRAFA.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PCB_CODIGO_BARRAS)).EndInit();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PCB_FOTO_PET)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -234,6 +437,22 @@
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.ComboBox CB_SERIAL;
         private System.Windows.Forms.Timer TMR_SERIAL;
+        private System.Windows.Forms.GroupBox GPB_INFO_GARRAFA;
+        private System.Windows.Forms.TextBox TXT_PESO_EMBALAGEM;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.TextBox TXT_PESO_LIQUIDO;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.TextBox TXT_PESO_BRUTO;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox TXT_DESCRICAO;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox TXT_COD_BARRAS1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.PictureBox PCB_FOTO_PET;
+        private System.Windows.Forms.ProgressBar PGB_IMAGEM_PROGRESSO;
+        private System.Windows.Forms.Label LBL_IMAGEM_PROGRESSO;
+        private System.Windows.Forms.PictureBox PCB_CODIGO_BARRAS;
     }
 }
 
