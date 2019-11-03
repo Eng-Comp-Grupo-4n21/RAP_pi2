@@ -92,5 +92,8 @@
   <ItemGroup>
     <None Include="imagens\Fundo_RAP_Transparente.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img_1568861444187.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

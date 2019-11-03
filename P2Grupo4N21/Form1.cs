@@ -106,7 +106,6 @@ namespace P2Grupo4N21
                 }
                 //seleciona a primeira posição da lista
                 CB_SERIAL.SelectedIndex = 0;
-                //label1.Text = CB_SERIAL.SelectedText;
                 serialPort1.PortName = label1.Text;
                 TMR_SERIAL.Enabled = false;
             }
@@ -242,11 +241,11 @@ namespace P2Grupo4N21
                     }
 
                 }
-                if (serialPort1.ReadExisting() == "")
+                if (serialPort1.ReadExisting() != "")
                 {
                     Dados_Serial = serialPort1.ReadExisting();           // verifica se tem retorno da serial      
 
-                    if (Dados_Serial == "")                            // compara o sinal recebido da serial
+                    if (Dados_Serial != "")                            // compara o sinal recebido da serial
                     {   // executa a  função conforme o sinal de retorno
                         labelMensager.Text = "  GARRAFA RECEBIDA  ";      // confirma que a garrafa foi recebida
                         Segundos = 30;                                  // se receber alguma garrafa reinicia o contador 
@@ -255,24 +254,30 @@ namespace P2Grupo4N21
                     }
                     if (TXT_COD_BARRAS.Visible == true)
                     {
-                        //CodigoBarra = Convert.ToInt32(TXT_COD_BARRAS.Text);
                         label1.Text = TXT_COD_BARRAS.Text;//Convert.ToString(CodigoBarra);
                         if (TXT_COD_BARRAS.Text != "")
                         {
-                            var url = "https://api.cosmos.bluesoft.com.br/gtins/" + TXT_COD_BARRAS.Text + ".json";
-                            CosmosWebClient wc = new CosmosWebClient();
-                            string RESPOSTA = wc.DownloadString(url);
-                            Produto Produtos = Descricao_Produto.JsonHelper.DeSerializar<Produto>(RESPOSTA);
+                            try
+                            {
+                                var url = "https://api.cosmos.bluesoft.com.br/gtins/" + TXT_COD_BARRAS.Text + ".json";
+                                CosmosWebClient wc = new CosmosWebClient();
+                                string RESPOSTA = wc.DownloadString(url);
+                                Produto Produtos = Descricao_Produto.JsonHelper.DeSerializar<Produto>(RESPOSTA);
+                                TXT_COD_BARRAS1.Text = Produtos.gtin;
+                                TXT_DESCRICAO.Text = Produtos.description;
+                                PCB_CODIGO_BARRAS.Load(Produtos.barcode_image);
+                                PCB_FOTO_PET.LoadAsync(Produtos.thumbnail);
+                                TXT_PESO_BRUTO.Text = Produtos.gross_weight;
+                                TXT_PESO_LIQUIDO.Text = Produtos.net_weight;
+                                TXT_PESO_EMBALAGEM.Text = Convert.ToString(Math.Abs(Convert.ToInt32(Produtos.gross_weight) - Convert.ToInt32(Produtos.net_weight)));
+                                TXT_COD_BARRAS.Text = "";
+                                TXT_COD_BARRAS.Focus();
 
-                            TXT_COD_BARRAS1.Text = Produtos.gtin;
-                            TXT_DESCRICAO.Text = Produtos.description;
-                            PCB_CODIGO_BARRAS.Load(Produtos.barcode_image);
-                            PCB_FOTO_PET.LoadAsync(Produtos.thumbnail);
-                            TXT_PESO_BRUTO.Text = Produtos.gross_weight;
-                            TXT_PESO_LIQUIDO.Text = Produtos.net_weight;
-                            TXT_PESO_EMBALAGEM.Text = Convert.ToString(Math.Abs(Convert.ToInt32(Produtos.gross_weight) - Convert.ToInt32(Produtos.net_weight)));
-                            Limpar(this.Controls);
-                            TXT_COD_BARRAS.Select();
+                            }
+                            catch
+                            {
+                                return;
+                            }
                         }
                         else 
                         {
