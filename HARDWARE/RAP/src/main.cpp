@@ -7,7 +7,7 @@ void setup()
   Serial.begin(115200);
   Serial2.begin(115200);
 
-  pinMode(2, OUTPUT); // led placa
+  pinMode(2, OUTPUT); // led placa 1
   pinMode(4, OUTPUT); // abre porta sinal do esp
   pinMode(5, OUTPUT); //garrafa aceita
   pinMode(13, INPUT); //sinal da porta aberta para colocar garrafa
