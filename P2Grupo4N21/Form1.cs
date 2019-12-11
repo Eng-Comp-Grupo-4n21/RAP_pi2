@@ -229,7 +229,7 @@ namespace P2Grupo4N21
                 }
                 else
                 {
-                    if (serialPort1.IsOpen == false)                        // verifica para abrir a porta serial
+                    if (serialPort1.IsOpen == false)                    // verifica para abrir a porta serial
                     {
                         serialPort1.Open();                             // abre a porta serial
                         serialPort1.Write("1");                         // envia comando para serial
