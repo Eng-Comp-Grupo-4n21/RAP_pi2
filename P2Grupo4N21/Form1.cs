@@ -15,6 +15,7 @@ using System.Web.Script.Serialization;
 using System.Runtime.Serialization;
 using System.IO;
 using System.Runtime.Serialization.Json;
+using System.Threading;
 
 namespace P2Grupo4N21
 {
@@ -136,25 +137,6 @@ namespace P2Grupo4N21
         private void UserControl1_Load(object sender, EventArgs e)
         {
             AtualizaListaCOMs(); //Chama Função para atualizar e verificar se com exixtem e adiciona a serialPort1
-
-            /* Substituido por Função AtualizaListaCOMs();
-             * 
-             * 
-            string[] ports = SerialPort.GetPortNames();            // procura as port serial instalada no windows 
-            foreach (string port in ports)                         //estrutura de de repetição para encontar as portas serial 
-            {   // tem que formular ainda o array das portas ou fazer uma escolha da lista das portas presente, ainda a defenir
-                if (ports==null)
-                {// conferir esta lógica se vai funcionar 
-                    Application.Exit();                             //fecha aplicação se não tem porta serial
-                }
-                else
-                {
-                    serialPort1.PortName = port;                       // conforme logica incompleta vai jogar no nome da porta a ultima da lista 
-                    label1.Text = port;
-                }
-
-            }*/
-
             TXT_COD_BARRAS.Visible = false;                   // inicializa invisivel o textbox do codigo de barras
             labelMensager.Text = "Entre com o número do CPF";
             
@@ -232,22 +214,74 @@ namespace P2Grupo4N21
                     if (serialPort1.IsOpen == false)                    // verifica para abrir a porta serial
                     {
                         serialPort1.Open();                             // abre a porta serial
-                        serialPort1.Write("1");                         // envia comando para serial
+                        serialPort1.Write("C");                         // envia comando para serial
                     }
                     else
                     {
-                        serialPort1.Write("1");                         // envia um comando antes de fechar a serial
+                        serialPort1.Write("C");                         // envia um comando antes de fechar a serial
                         //Fecha_Serial();                                 //  função de fechar serial                                      
                     }
 
                 }
                 if (serialPort1.ReadExisting() != "")
                 {
-                    Dados_Serial = serialPort1.ReadExisting();           // verifica se tem retorno da serial      
-
+                    //Dados_Serial = serialPort1.ReadExisting();           // verifica se tem retorno da serial
+                    Dados_Serial = serialPort1.ReadLine();
+                    serialPort1.DiscardInBuffer();                  // limpa o buffer da serial para esperar o proximo comando de entrada
+                    
                     if (Dados_Serial != "")                            // compara o sinal recebido da serial
                     {   // executa a  função conforme o sinal de retorno
-                        labelMensager.Text = "  GARRAFA RECEBIDA  ";      // confirma que a garrafa foi recebida
+                        JSON_RAP RAP_RETORNO = Descricao_Produto.JsonHelper.DeSerializar<JSON_RAP>(Dados_Serial);
+
+                        TXT_JSON_RAP.Text = RAP_RETORNO.BOTAO_PORTA;
+                        TXT_JSON_RAP.Text += "\n";
+                        TXT_JSON_RAP.Text += RAP_RETORNO.BOTAO_MAQUINA_CHEIA;
+                        TXT_JSON_RAP.Text += "/n";
+                        TXT_JSON_RAP.Text += RAP_RETORNO.BOTAO_COMPACTANDO;
+                        TXT_JSON_RAP.Text += "\n";
+                        TXT_JSON_RAP.Text += RAP_RETORNO.BOTAO_ERRO;
+                        TXT_JSON_RAP.Text += "\n";
+                        TXT_JSON_RAP.Text += RAP_RETORNO.LED_AZUL_STATUS;
+                        TXT_JSON_RAP.Text += "\n";
+                        TXT_JSON_RAP.Text += RAP_RETORNO.LED_VERMELHO_ERRO;
+                        TXT_JSON_RAP.Text += "\r";
+                        TXT_JSON_RAP.Text += RAP_RETORNO.LED_VERDE_PORTA_ABERTA;
+                        TXT_JSON_RAP.Text += "\r";
+                        TXT_JSON_RAP.Text += RAP_RETORNO.LED_VERMELHO_PORTA_FECHADA;
+                        TXT_JSON_RAP.Text += "/r";
+                        TXT_JSON_RAP.Text += RAP_RETORNO.LED_AMARELO_MAQUINA_CHEIA ;
+                        TXT_JSON_RAP.Text += "/r";
+
+                       /* switch (Dados_Serial)
+                        {
+                            case "1":
+                                labelMensager.Text = "  DEPOSITE A GARRAFA  ";
+                                break;
+
+                            case "2":
+                                labelMensager.Text = "  MAQUINA CHEIA  ";
+                                break;
+                                
+                            case "3":
+                                labelMensager.Text = "  COMPACTANDO  ";
+                                break;
+
+                            case "4":
+                                labelMensager.Text = "  ERRO INTERNO  ";
+                                break;
+
+                            default:
+                                labelMensager.Text = "  AGUARDANDO GARRAFA  ";
+                                break;
+
+                        }*/
+
+                        if (Dados_Serial != "")
+                        {
+                            labelMensager.Text = "  GARRAFA RECEBIDA  ";      // confirma que a garrafa foi recebida
+                        }
+                        timer3.Enabled = false;
+                        timer2.Enabled = true;
                         Segundos = 30;                                  // se receber alguma garrafa reinicia o contador 
                         serialPort1.DiscardInBuffer();                  // limpa o buffer da serial para esperar o proximo comando de entrada
                         TXT_COD_BARRAS.Visible = true;                // entrada do codigo de barras
@@ -272,6 +306,8 @@ namespace P2Grupo4N21
                                 TXT_PESO_EMBALAGEM.Text = Convert.ToString(Math.Abs(Convert.ToInt32(Produtos.gross_weight) - Convert.ToInt32(Produtos.net_weight)));
                                 TXT_COD_BARRAS.Text = "";
                                 TXT_COD_BARRAS.Focus();
+                                Thread.Sleep(10000);
+                                TXT_COD_BARRAS.Text = "7894900680508";
 
                             }
                             catch
@@ -305,6 +341,31 @@ namespace P2Grupo4N21
             LBL_IMAGEM_PROGRESSO.BackColor = Color.Transparent;
             PGB_IMAGEM_PROGRESSO.Value = e.ProgressPercentage;
             LBL_IMAGEM_PROGRESSO.Text = e.ProgressPercentage.ToString() + "%";
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+            if (TXT_JSON_RAP.Visible == false)
+            {
+                TXT_JSON_RAP.Visible = true;
+            }
+            else
+            {
+                TXT_JSON_RAP.Visible = false;
+            }
+
+        }
+
+        private void pictureBox2_Click(object sender, EventArgs e)
+        {
+            if (GPB_INFO_GARRAFA.Visible == false)
+            {
+                GPB_INFO_GARRAFA.Visible = true;
+            }
+            else
+            {
+                GPB_INFO_GARRAFA.Visible = false;
+            }
         }
     }
 }

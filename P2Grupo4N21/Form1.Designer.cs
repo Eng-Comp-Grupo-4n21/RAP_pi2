@@ -44,9 +44,11 @@
             this.CB_SERIAL = new System.Windows.Forms.ComboBox();
             this.TMR_SERIAL = new System.Windows.Forms.Timer(this.components);
             this.GPB_INFO_GARRAFA = new System.Windows.Forms.GroupBox();
+            this.PCB_CODIGO_BARRAS = new System.Windows.Forms.PictureBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.LBL_IMAGEM_PROGRESSO = new System.Windows.Forms.Label();
             this.PGB_IMAGEM_PROGRESSO = new System.Windows.Forms.ProgressBar();
+            this.PCB_FOTO_PET = new System.Windows.Forms.PictureBox();
             this.TXT_PESO_EMBALAGEM = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.TXT_PESO_LIQUIDO = new System.Windows.Forms.TextBox();
@@ -58,14 +60,13 @@
             this.TXT_COD_BARRAS1 = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.PCB_CODIGO_BARRAS = new System.Windows.Forms.PictureBox();
-            this.PCB_FOTO_PET = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.TXT_JSON_RAP = new System.Windows.Forms.TextBox();
             this.GPB_INFO_GARRAFA.SuspendLayout();
-            this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PCB_CODIGO_BARRAS)).BeginInit();
+            this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PCB_FOTO_PET)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -163,7 +164,7 @@
             this.TXT_COD_BARRAS.Name = "TXT_COD_BARRAS";
             this.TXT_COD_BARRAS.Size = new System.Drawing.Size(254, 47);
             this.TXT_COD_BARRAS.TabIndex = 5;
-            this.TXT_COD_BARRAS.Text = "7896098909997";
+            this.TXT_COD_BARRAS.Text = "7894900530025";
             // 
             // label1
             // 
@@ -215,6 +216,15 @@
             this.GPB_INFO_GARRAFA.TabStop = false;
             this.GPB_INFO_GARRAFA.Visible = false;
             // 
+            // PCB_CODIGO_BARRAS
+            // 
+            this.PCB_CODIGO_BARRAS.BackColor = System.Drawing.Color.Transparent;
+            this.PCB_CODIGO_BARRAS.Location = new System.Drawing.Point(376, 16);
+            this.PCB_CODIGO_BARRAS.Name = "PCB_CODIGO_BARRAS";
+            this.PCB_CODIGO_BARRAS.Size = new System.Drawing.Size(179, 26);
+            this.PCB_CODIGO_BARRAS.TabIndex = 13;
+            this.PCB_CODIGO_BARRAS.TabStop = false;
+            // 
             // groupBox1
             // 
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -253,6 +263,20 @@
             this.PGB_IMAGEM_PROGRESSO.Size = new System.Drawing.Size(305, 14);
             this.PGB_IMAGEM_PROGRESSO.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
             this.PGB_IMAGEM_PROGRESSO.TabIndex = 1;
+            // 
+            // PCB_FOTO_PET
+            // 
+            this.PCB_FOTO_PET.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.PCB_FOTO_PET.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.PCB_FOTO_PET.Location = new System.Drawing.Point(6, 25);
+            this.PCB_FOTO_PET.Name = "PCB_FOTO_PET";
+            this.PCB_FOTO_PET.Size = new System.Drawing.Size(308, 226);
+            this.PCB_FOTO_PET.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.PCB_FOTO_PET.TabIndex = 0;
+            this.PCB_FOTO_PET.TabStop = false;
+            this.PCB_FOTO_PET.LoadProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.PCB_FOTO_PET_LoadProgressChanged);
             // 
             // TXT_PESO_EMBALAGEM
             // 
@@ -356,29 +380,7 @@
             this.pictureBox2.Size = new System.Drawing.Size(218, 218);
             this.pictureBox2.TabIndex = 14;
             this.pictureBox2.TabStop = false;
-            // 
-            // PCB_CODIGO_BARRAS
-            // 
-            this.PCB_CODIGO_BARRAS.BackColor = System.Drawing.Color.Transparent;
-            this.PCB_CODIGO_BARRAS.Location = new System.Drawing.Point(376, 16);
-            this.PCB_CODIGO_BARRAS.Name = "PCB_CODIGO_BARRAS";
-            this.PCB_CODIGO_BARRAS.Size = new System.Drawing.Size(179, 26);
-            this.PCB_CODIGO_BARRAS.TabIndex = 13;
-            this.PCB_CODIGO_BARRAS.TabStop = false;
-            // 
-            // PCB_FOTO_PET
-            // 
-            this.PCB_FOTO_PET.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.PCB_FOTO_PET.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.PCB_FOTO_PET.Location = new System.Drawing.Point(6, 25);
-            this.PCB_FOTO_PET.Name = "PCB_FOTO_PET";
-            this.PCB_FOTO_PET.Size = new System.Drawing.Size(308, 226);
-            this.PCB_FOTO_PET.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.PCB_FOTO_PET.TabIndex = 0;
-            this.PCB_FOTO_PET.TabStop = false;
-            this.PCB_FOTO_PET.LoadProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.PCB_FOTO_PET_LoadProgressChanged);
+            this.pictureBox2.Click += new System.EventHandler(this.pictureBox2_Click);
             // 
             // pictureBox1
             // 
@@ -393,6 +395,16 @@
             this.pictureBox1.Size = new System.Drawing.Size(218, 218);
             this.pictureBox1.TabIndex = 7;
             this.pictureBox1.TabStop = false;
+            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
+            // 
+            // TXT_JSON_RAP
+            // 
+            this.TXT_JSON_RAP.Location = new System.Drawing.Point(224, 10);
+            this.TXT_JSON_RAP.Multiline = true;
+            this.TXT_JSON_RAP.Name = "TXT_JSON_RAP";
+            this.TXT_JSON_RAP.Size = new System.Drawing.Size(778, 207);
+            this.TXT_JSON_RAP.TabIndex = 15;
+            this.TXT_JSON_RAP.Visible = false;
             // 
             // UserControl1
             // 
@@ -403,6 +415,7 @@
             this.BackColor = System.Drawing.Color.RoyalBlue;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(1225, 825);
+            this.Controls.Add(this.TXT_JSON_RAP);
             this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.GPB_INFO_GARRAFA);
             this.Controls.Add(this.CB_SERIAL);
@@ -427,11 +440,11 @@
             this.Load += new System.EventHandler(this.UserControl1_Load);
             this.GPB_INFO_GARRAFA.ResumeLayout(false);
             this.GPB_INFO_GARRAFA.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PCB_CODIGO_BARRAS)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PCB_CODIGO_BARRAS)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PCB_FOTO_PET)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -471,6 +484,7 @@
         private System.Windows.Forms.Label LBL_IMAGEM_PROGRESSO;
         private System.Windows.Forms.PictureBox PCB_CODIGO_BARRAS;
         private System.Windows.Forms.PictureBox pictureBox2;
+        private System.Windows.Forms.TextBox TXT_JSON_RAP;
     }
 }
 

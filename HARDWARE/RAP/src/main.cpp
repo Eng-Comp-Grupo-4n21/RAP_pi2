@@ -26,6 +26,7 @@ void setup()
     lcd.init();
     lcd.backlight();
     lcd.createChar(1, BARRA_CARREGAMENTO); // criando o caracter especial 1
+    Serial.Begin(115200);
 
     for (int i = 0; i < 12; i++)
     {

@@ -5,6 +5,11 @@ VisualStudioVersion = 16.0.29306.81
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "P2Grupo4N21", "P2Grupo4N21.csproj", "{FB3B22CB-4166-4E5A-9244-262C127B05B1}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{967818A1-7148-44E0-B29F-4A7D0CB031A8}"
+	ProjectSection(SolutionItems) = preProject
+		JSON_RAP.cs = JSON_RAP.cs
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

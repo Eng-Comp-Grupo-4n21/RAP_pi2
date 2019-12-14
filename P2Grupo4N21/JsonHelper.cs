@@ -20,10 +20,12 @@ namespace Descricao_Produto
 
     public static T DeSerializar<T>(string json)
     {
-      DataContractJsonSerializer ser = new DataContractJsonSerializer (typeof (T));
-      MemoryStream ms = new MemoryStream (Encoding.UTF8.GetBytes (json));
-      return (T)ser.ReadObject (ms);
-    }
+            
+                DataContractJsonSerializer ser = new DataContractJsonSerializer(typeof(T));
+                MemoryStream ms = new MemoryStream(Encoding.UTF8.GetBytes(json));
+                return (T)ser.ReadObject(ms);
+           
+        }
   }
 
    
