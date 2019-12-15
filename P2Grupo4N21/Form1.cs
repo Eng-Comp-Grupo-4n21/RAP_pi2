@@ -16,15 +16,14 @@ using System.Runtime.Serialization;
 using System.IO;
 using System.Runtime.Serialization.Json;
 using System.Threading;
-
 namespace P2Grupo4N21
 {
     public partial class UserControl1 : Form
     {   //varialvel global....
         int Segundos;
         string Dados_Serial;
-        //int  CodigoBarra;
-        //string texto="0";
+        bool STATUS_ERRO = false;
+
 
         public class CosmosWebClient : WebClient
         {
@@ -232,53 +231,24 @@ namespace P2Grupo4N21
                     if (Dados_Serial != "")                            // compara o sinal recebido da serial
                     {   // executa a  função conforme o sinal de retorno
                         JSON_RAP RAP_RETORNO = Descricao_Produto.JsonHelper.DeSerializar<JSON_RAP>(Dados_Serial);
-
-                        TXT_JSON_RAP.Text = RAP_RETORNO.BOTAO_PORTA;
-                        TXT_JSON_RAP.Text += "\n";
-                        TXT_JSON_RAP.Text += RAP_RETORNO.BOTAO_MAQUINA_CHEIA;
-                        TXT_JSON_RAP.Text += "/n";
-                        TXT_JSON_RAP.Text += RAP_RETORNO.BOTAO_COMPACTANDO;
-                        TXT_JSON_RAP.Text += "\n";
-                        TXT_JSON_RAP.Text += RAP_RETORNO.BOTAO_ERRO;
-                        TXT_JSON_RAP.Text += "\n";
-                        TXT_JSON_RAP.Text += RAP_RETORNO.LED_AZUL_STATUS;
-                        TXT_JSON_RAP.Text += "\n";
-                        TXT_JSON_RAP.Text += RAP_RETORNO.LED_VERMELHO_ERRO;
-                        TXT_JSON_RAP.Text += "\r";
-                        TXT_JSON_RAP.Text += RAP_RETORNO.LED_VERDE_PORTA_ABERTA;
-                        TXT_JSON_RAP.Text += "\r";
-                        TXT_JSON_RAP.Text += RAP_RETORNO.LED_VERMELHO_PORTA_FECHADA;
-                        TXT_JSON_RAP.Text += "/r";
-                        TXT_JSON_RAP.Text += RAP_RETORNO.LED_AMARELO_MAQUINA_CHEIA ;
-                        TXT_JSON_RAP.Text += "/r";
-
-                       /* switch (Dados_Serial)
+                        if (RAP_RETORNO.BOTAO_ERRO == "0")
                         {
-                            case "1":
-                                labelMensager.Text = "  DEPOSITE A GARRAFA  ";
-                                break;
+                            if (STATUS_ERRO == false)
+                            {
+                                ERRO_DETECTADO();
+                            }
+                            
 
-                            case "2":
-                                labelMensager.Text = "  MAQUINA CHEIA  ";
-                                break;
-                                
-                            case "3":
-                                labelMensager.Text = "  COMPACTANDO  ";
-                                break;
+                        }
 
-                            case "4":
-                                labelMensager.Text = "  ERRO INTERNO  ";
-                                break;
-
-                            default:
-                                labelMensager.Text = "  AGUARDANDO GARRAFA  ";
-                                break;
-
-                        }*/
+                        
+                        
 
                         if (Dados_Serial != "")
                         {
                             labelMensager.Text = "  GARRAFA RECEBIDA  ";      // confirma que a garrafa foi recebida
+                            
+
                         }
                         timer3.Enabled = false;
                         timer2.Enabled = true;
@@ -308,6 +278,7 @@ namespace P2Grupo4N21
                                 TXT_COD_BARRAS.Focus();
                                 Thread.Sleep(10000);
                                 TXT_COD_BARRAS.Text = "7894900680508";
+
 
                             }
                             catch
@@ -356,6 +327,19 @@ namespace P2Grupo4N21
 
         }
 
+        void ERRO_DETECTADO()
+        {
+            STATUS_ERRO = true;
+            MessageBox.Show("Ocorreu um erro interno", "!!! ATENÇÃO !!!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            timer1.Enabled = false;
+            timer2.Enabled = false;
+            timer3.Enabled = false;
+            auto_destruicao auto = new auto_destruicao();
+            auto.Show();
+            this.Close();
+
+        }
+
         private void pictureBox2_Click(object sender, EventArgs e)
         {
             if (GPB_INFO_GARRAFA.Visible == false)
@@ -367,5 +351,7 @@ namespace P2Grupo4N21
                 GPB_INFO_GARRAFA.Visible = false;
             }
         }
+
+
     }
 }
