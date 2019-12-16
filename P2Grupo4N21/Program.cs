@@ -6,8 +6,8 @@ using System.Windows.Forms;
 using System.Diagnostics; //USADA PARA ACESSO A FUNCIONALIDADES DE PROCESSOS DO WINDOWS.
 
 namespace P2Grupo4N21
-{    
-static class Program
+{
+    static class Program
     {        
     /// <summary>
     /// Ponto de entrada principal para o aplicativo.

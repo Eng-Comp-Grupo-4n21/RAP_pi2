@@ -20,11 +20,30 @@ namespace P2Grupo4N21
 {
     public partial class UserControl1 : Form
     {   //varialvel global....
-        int Segundos;
-        string Dados_Serial;
+        int Segundos = 30;
+        String Dados_Serial;
         bool STATUS_ERRO = false;
 
+        public void Erro_setado()
+        {
+            //JSON_RAP RAP_RETORNO = Descricao_Produto.JsonHelper.DeSerializar<JSON_RAP>(Dados_Serial);
+            //if (RAP_RETORNO.BOTAO_ERRO == "0")
 
+            {
+                if (STATUS_ERRO == false)
+                {
+                    ERRO_DETECTADO();
+                }
+            }
+        }
+
+        public void Primeiro_comando_serial()
+        {
+            serialPort1.Write("1");                         // envia comando para serial 
+            Dados_Serial = serialPort1.ReadExisting();     // verifica se tem retorno da serial
+            TMR_SERIAL.Enabled = true;
+            TMR_SERIAL.Start();
+        }
         public class CosmosWebClient : WebClient
         {
             protected override WebRequest GetWebRequest(Uri address)
@@ -138,28 +157,28 @@ namespace P2Grupo4N21
             AtualizaListaCOMs(); //Chama Função para atualizar e verificar se com exixtem e adiciona a serialPort1
             TXT_COD_BARRAS.Visible = false;                   // inicializa invisivel o textbox do codigo de barras
             labelMensager.Text = "Entre com o número do CPF";
-            
+
         }
 
         private void Buttonconfirma_Click(object sender, EventArgs e)
         {
             labelMensager.Text = "Entre com o número do CPF";
-            string cpf= MTB_CPF.Text;
-                if (PI24N21.ValidaCPF.IsCpf(cpf))
-                {   // entra na função ValidaCPF e verifica se é valido ou não
-                    labelMensager.Text = "O número do CPF é Válido !";
-                    LimpaCpf();// limpa o campo                    
-                    timer1.Stop();
-                    timer2.Enabled = true;// habilita o segundo timer responsavel 2 segundos de texto na tela 
-                    timer2.Start();
-                    Segundos = 30;// inicialização da variavel de tempo
-                    BTN_CONFIRMA.Visible = false; // desaparece com o button_confirma         
-                }
-                else
-                {
-                    labelMensager.Text = "O número do CPF é Inválido !";
-                    LimpaCpf(); //mantem 5 segundos  do texto cpf invalido e limpa o campo
-                }
+            string cpf = MTB_CPF.Text;
+            if (PI24N21.ValidaCPF.IsCpf(cpf))
+            {   // entra na função ValidaCPF e verifica se é valido ou não
+                labelMensager.Text = "O número do CPF é Válido !";
+                LimpaCpf();// limpa o campo                    
+                timer1.Stop();
+                timer2.Enabled = true;// habilita o segundo timer responsavel 2 segundos de texto na tela 
+                timer2.Start();
+                Segundos = 30;// inicialização da variavel de tempo
+                BTN_CONFIRMA.Visible = false; // desaparece com o button_confirma         
+            }
+            else
+            {
+                labelMensager.Text = "O número do CPF é Inválido !";
+                LimpaCpf(); //mantem 5 segundos  do texto cpf invalido e limpa o campo
+            }
         }
 
         private void Timer1_Tick(object sender, EventArgs e)
@@ -174,7 +193,6 @@ namespace P2Grupo4N21
         {
             labelMensager.Text = "INSIRA SUA GARRAFA";
             timer3.Enabled = true;// habilita o timer3
-            //timer3.Interval = 1000;// set 1 segundo de atualização
             timer3.Start(); //inicia o timer 3           
         }
 
@@ -189,17 +207,16 @@ namespace P2Grupo4N21
                 labelMensager.ForeColor = Color.Black;              // mantem o labelMensager em preto
                 labelMensager.Text = "Entre com o número do CPF";   //muda o texto para inicializar o pedido de cpf
                 BTN_CONFIRMA.Visible = true;                      // retorna o button_confirma para visivel
-
+                GPB_INFO_GARRAFA.Visible = false;
                 MTB_CPF.Clear();                                   // chama a função limpa 
                 MTB_CPF.Visible = true;                            // aparece novamente o editcpf1
+                TXT_COD_BARRAS.Visible = false;
+                //serialPort1.Write("9");
+
             }
             else
             {   // conta tempo de 30 segunsdos para inserir a garrafa
                 GPB_INFO_GARRAFA.Visible = true;
-                Segundos--;                                         // subtrai segundo por segundo
-                labelMensager.ForeColor = labelMensager.ForeColor == Color.Red ? Color.Black : Color.Red;
-                // linha acima fica alternando de cor a cada segundo                
-                labelMensager.Text = "  INSIRA SUA GARRAFA  " + Segundos; // atualização do label a cada segundo    
 
                 if (SerialPort.GetPortNames().Length == 0)
                 {
@@ -210,98 +227,33 @@ namespace P2Grupo4N21
                 }
                 else
                 {
+                    
                     if (serialPort1.IsOpen == false)                    // verifica para abrir a porta serial
                     {
-                        serialPort1.Open();                             // abre a porta serial
-                        serialPort1.Write("C");                         // envia comando para serial
-                    }
-                    else
-                    {
-                        serialPort1.Write("C");                         // envia um comando antes de fechar a serial
-                        //Fecha_Serial();                                 //  função de fechar serial                                      
-                    }
-
-                }
-                if (serialPort1.ReadExisting() != "")
-                {
-                    //Dados_Serial = serialPort1.ReadExisting();           // verifica se tem retorno da serial
-                    Dados_Serial = serialPort1.ReadLine();
-                    serialPort1.DiscardInBuffer();                  // limpa o buffer da serial para esperar o proximo comando de entrada
-                    
-                    if (Dados_Serial != "")                            // compara o sinal recebido da serial
-                    {   // executa a  função conforme o sinal de retorno
-                        JSON_RAP RAP_RETORNO = Descricao_Produto.JsonHelper.DeSerializar<JSON_RAP>(Dados_Serial);
-                        if (RAP_RETORNO.BOTAO_ERRO == "0")
+                        serialPort1.Open();                           // abre a porta serial 
+                        //Thread.Sleep(5000);                      
+                                                                        //Thread.Sleep(5000);
+                        if (serialPort1.IsOpen == true)                    // verifica para abrir a porta serial
                         {
-                            if (STATUS_ERRO == false)
-                            {
-                                ERRO_DETECTADO();
-                            }
-                            
+                            Primeiro_comando_serial();                     
 
-                        }
-
-                        
-                        
-
-                        if (Dados_Serial != "")
-                        {
-                            labelMensager.Text = "  GARRAFA RECEBIDA  ";      // confirma que a garrafa foi recebida
-                            
-
-                        }
-                        timer3.Enabled = false;
-                        timer2.Enabled = true;
-                        Segundos = 30;                                  // se receber alguma garrafa reinicia o contador 
-                        serialPort1.DiscardInBuffer();                  // limpa o buffer da serial para esperar o proximo comando de entrada
-                        TXT_COD_BARRAS.Visible = true;                // entrada do codigo de barras
-                    }
-                    if (TXT_COD_BARRAS.Visible == true)
-                    {
-                        label1.Text = TXT_COD_BARRAS.Text;//Convert.ToString(CodigoBarra);
-                        if (TXT_COD_BARRAS.Text != "")
-                        {
-                            try
-                            {
-                                var url = "https://api.cosmos.bluesoft.com.br/gtins/" + TXT_COD_BARRAS.Text + ".json";
-                                CosmosWebClient wc = new CosmosWebClient();
-                                string RESPOSTA = wc.DownloadString(url);
-                                Produto Produtos = Descricao_Produto.JsonHelper.DeSerializar<Produto>(RESPOSTA);
-                                TXT_COD_BARRAS1.Text = Produtos.gtin;
-                                TXT_DESCRICAO.Text = Produtos.description;
-                                PCB_CODIGO_BARRAS.Load(Produtos.barcode_image);
-                                PCB_FOTO_PET.LoadAsync(Produtos.thumbnail);
-                                TXT_PESO_BRUTO.Text = Produtos.gross_weight;
-                                TXT_PESO_LIQUIDO.Text = Produtos.net_weight;
-                                TXT_PESO_EMBALAGEM.Text = Convert.ToString(Math.Abs(Convert.ToInt32(Produtos.gross_weight) - Convert.ToInt32(Produtos.net_weight)));
-                                TXT_COD_BARRAS.Text = "";
-                                TXT_COD_BARRAS.Focus();
-                                Thread.Sleep(10000);
-                                TXT_COD_BARRAS.Text = "7894900680508";
-
-
-                            }
-                            catch
-                            {
-                                return;
-                            }
-                        }
-                        else 
-                        {
-                            return; 
                         }
                     }
                     else
-                    {
-                        return;
+                     {
+                        if (serialPort1.IsOpen == true)                    // verifica para abrir a porta serial
+                        {
+                            Primeiro_comando_serial();
+                        }
                     }
+
+
+
                 }
-                else
-                {
-                    return;
-                }
+
             }
         }
+     
         private void UserControl1_FormClosed(object sender, FormClosedEventArgs e)
         {
             Fecha_Serial();                                         // fecha a serial se for fechar o formulario
@@ -352,6 +304,100 @@ namespace P2Grupo4N21
             }
         }
 
+        
 
+        private void TMR_SERIAL_Tick(object sender, EventArgs e)
+        {
+                timer3.Enabled = false;
+
+
+
+
+                      
+            //JSON_RAP RAP_RETORNO = Descricao_Produto.JsonHelper.DeSerializar<JSON_RAP>(Dados_Serial);
+            //if (RAP_RETORNO.BOTAO_PORTA == "0")
+            if (Dados_Serial == "1")
+            {   
+                Dados_Serial = "";                                 
+                labelMensager.Text = "  GARRAFA RECEBIDA  ";      // confirma que a garrafa foi recebida
+                serialPort1.Write("3");
+                //Erro_setado(); // verifica se maquina mandou erro
+
+                TXT_COD_BARRAS.Visible = true;
+                // escrever o codigo aqui continuando o programa
+                if (TXT_COD_BARRAS.Visible == true)
+                {
+                    TXT_COD_BARRAS.Text = "7894900680508";
+                    label1.Text = TXT_COD_BARRAS.Text;//Convert.ToString(CodigoBarra);
+                    if (TXT_COD_BARRAS.Text != "")
+                    {
+                        try
+                        {
+                            Segundos = Segundos + 30;
+                            var url = "https://api.cosmos.bluesoft.com.br/gtins/" + TXT_COD_BARRAS.Text + ".json";
+                            CosmosWebClient wc = new CosmosWebClient();
+                            string RESPOSTA = wc.DownloadString(url);
+                            Produto Produtos = Descricao_Produto.JsonHelper.DeSerializar<Produto>(RESPOSTA);
+                            TXT_COD_BARRAS1.Text = Produtos.gtin;
+                            TXT_DESCRICAO.Text = Produtos.description;
+                            PCB_CODIGO_BARRAS.Load(Produtos.barcode_image);
+                            PCB_FOTO_PET.LoadAsync(Produtos.thumbnail);
+                            TXT_PESO_BRUTO.Text = Produtos.gross_weight;
+                            TXT_PESO_LIQUIDO.Text = Produtos.net_weight;
+                            TXT_PESO_EMBALAGEM.Text = Convert.ToString(Math.Abs(Convert.ToInt32(Produtos.gross_weight) - Convert.ToInt32(Produtos.net_weight)));
+                            TXT_COD_BARRAS.Text = "";
+                            TXT_COD_BARRAS.Focus();
+                            TXT_COD_BARRAS.Text = "7894900680508";
+                            Thread.Sleep(4000);
+                        }
+                        catch
+                        {
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        return;
+                    }
+                }
+               // TMR_SERIAL.Stop();      
+                                
+            }  
+
+            else
+            {
+                    serialPort1.Write("1");
+                    Thread.Sleep(700);
+                    //Dados_Serial =serialPort1.ReadExisting();                
+
+                    Segundos--;                                         // subtrai segundo por segundo
+                    labelMensager.ForeColor = labelMensager.ForeColor == Color.Red ? Color.Black : Color.Red;
+                    // linha acima fica alternando de cor a cada segundo                
+                    labelMensager.Text = "  INSIRA SUA GARRAFA  " + Segundos; // atualização do label a cada segundo
+                    if(Segundos==0)
+                    {
+                    timer1.Enabled = true;
+                    timer1.Start();
+                    BTN_CONFIRMA.Visible = true;                      // retorna o button_confirma para visivel
+                    GPB_INFO_GARRAFA.Visible = false;
+                    MTB_CPF.Clear();                                   // chama a função limpa 
+                    MTB_CPF.Visible = true;                            // aparece novamente o editcpf1
+                    TXT_COD_BARRAS.Visible = false;
+                    Segundos=31;
+                    TMR_SERIAL.Stop();
+
+                    }
+                Dados_Serial = serialPort1.ReadExisting();           // verifica se tem retorno da serial
+                //Dados_Serial = serialPort1.ReadLine();   // testar ser pode ser Readline ou Readexisting com concatenização
+                Thread.Sleep(700);
+                //isso abaixo tem que virar uma função
+                //Erro_setado();  // verifica se a maquinha mandou sinal de erro              
+
+                if (Dados_Serial != "\n")
+                {
+                    serialPort1.DiscardInBuffer();
+                }
+            }            
+        }
     }
 }

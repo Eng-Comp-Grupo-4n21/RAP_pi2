@@ -143,7 +143,7 @@
             // serialPort1
             // 
             this.serialPort1.BaudRate = 115200;
-            this.serialPort1.PortName = "COM0";
+            this.serialPort1.PortName = "COM3";
             // 
             // MTB_CPF
             // 
@@ -190,8 +190,8 @@
             // 
             // TMR_SERIAL
             // 
-            this.TMR_SERIAL.Enabled = true;
-            this.TMR_SERIAL.Interval = 1;
+            this.TMR_SERIAL.Interval = 1000;
+            this.TMR_SERIAL.Tick += new System.EventHandler(this.TMR_SERIAL_Tick);
             // 
             // GPB_INFO_GARRAFA
             // 
@@ -404,7 +404,6 @@
             this.TXT_JSON_RAP.Name = "TXT_JSON_RAP";
             this.TXT_JSON_RAP.Size = new System.Drawing.Size(778, 207);
             this.TXT_JSON_RAP.TabIndex = 15;
-            this.TXT_JSON_RAP.Visible = false;
             // 
             // UserControl1
             // 
@@ -414,7 +413,7 @@
             this.AutoSize = true;
             this.BackColor = System.Drawing.Color.RoyalBlue;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(1225, 825);
+            this.ClientSize = new System.Drawing.Size(1225, 788);
             this.Controls.Add(this.TXT_JSON_RAP);
             this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.GPB_INFO_GARRAFA);
